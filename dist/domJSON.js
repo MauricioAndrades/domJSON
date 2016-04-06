@@ -222,8 +222,9 @@
         }
         attributes = opts.attributes ? boolFilter(attributes, opts.attributes) : null;
         absAttr = boolFilter(attributes, opts.absolutePaths);
-        for (var i in absAttr) {
-            attributes[i] = toAbsolute(absAttr[i], opts.absoluteBase);
+        // variable redefinition. i already in use.
+        for (var j in absAttr) {
+            attributes[j] = toAbsolute(absAttr[j], opts.absoluteBase);
         }
         return attributes;
     };
@@ -374,8 +375,10 @@
         }
     };
     var toDOM = function(obj, parent, doc) {
+        // fix node out of scope
+        var node;
         if (obj.nodeType) {
-            var node = createNode(obj.nodeType, doc, obj);
+            node = createNode(obj.nodeType, doc, obj);
             parent.appendChild(node);
         } else {
             return false;
